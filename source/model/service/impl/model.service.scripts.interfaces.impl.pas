@@ -659,27 +659,27 @@ begin
             SQL.Add(',:TOTAL_DESPESA');
             SQL.Add(',:PRECO_LIQUIDO');
             SQL.Add(',:TOTAL_LIQUIDO');
-            SQL.Add(',(SELECT TOP 1 PRECO_CUSTO FROM ESTOQUE WHERE '+
+            SQL.Add(',COALESCE((SELECT TOP 1 PRECO_CUSTO FROM ESTOQUE WHERE '+
               'ID_EMPRESA = :ID_EMPRESA AND ID_PRODUTO = :ID_PRODUTO '+
-                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC)');
-            SQL.Add(',(SELECT TOP 1 PRECO_UNITARIO FROM ESTOQUE WHERE '+
+                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC),0)');
+            SQL.Add(',COALESCE((SELECT TOP 1 PRECO_UNITARIO FROM ESTOQUE WHERE '+
               'ID_EMPRESA = :ID_EMPRESA AND ID_PRODUTO = :ID_PRODUTO '+
-                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC)');
-            SQL.Add(',(SELECT TOP 1 PRECO_UNITARIO_MEDIO FROM ESTOQUE WHERE '+
+                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC),0)');
+            SQL.Add(',COALESCE((SELECT TOP 1 PRECO_UNITARIO_MEDIO FROM ESTOQUE WHERE '+
               'ID_EMPRESA = :ID_EMPRESA AND ID_PRODUTO = :ID_PRODUTO '+
-                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC)');
-            SQL.Add(',(SELECT TOP 1 CUSTO_CONTABIL FROM ESTOQUE WHERE '+
+                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC),0)');
+            SQL.Add(',COALESCE((SELECT TOP 1 CUSTO_CONTABIL FROM ESTOQUE WHERE '+
               'ID_EMPRESA = :ID_EMPRESA AND ID_PRODUTO = :ID_PRODUTO '+
-                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC)');
-            SQL.Add(',(SELECT TOP 1 CUSTO_LIQUIDO FROM ESTOQUE WHERE '+
+                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC),0)');
+            SQL.Add(',COALESCE((SELECT TOP 1 CUSTO_LIQUIDO FROM ESTOQUE WHERE '+
               'ID_EMPRESA = :ID_EMPRESA AND ID_PRODUTO = :ID_PRODUTO '+
-                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC)');
-            SQL.Add(',(SELECT TOP 1 CUSTO_REAL FROM ESTOQUE WHERE '+
+                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC),0)');
+            SQL.Add(',COALESCE((SELECT TOP 1 CUSTO_REAL FROM ESTOQUE WHERE '+
               'ID_EMPRESA = :ID_EMPRESA AND ID_PRODUTO = :ID_PRODUTO '+
-                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC)');
-            SQL.Add(',(SELECT TOP 1 CUSTO_MEDIO FROM ESTOQUE WHERE '+
+                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC),0)');
+            SQL.Add(',COALESCE((SELECT TOP 1 CUSTO_MEDIO FROM ESTOQUE WHERE '+
               'ID_EMPRESA = :ID_EMPRESA AND ID_PRODUTO = :ID_PRODUTO '+
-                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC)');
+                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC),0)');
             SQL.Add(',:IND_MOV');
             SQL.Add(',:RESERVADO');
             SQL.Add(',:PRESENTE');
@@ -764,13 +764,6 @@ begin
             ParamByName('total_despesa').Value := Item.total_despesa;
             ParamByName('preco_liquido').Value := Item.preco_liquido;
             ParamByName('total_liquido').Value := Item.total_liquido;
-//            ParamByName('preco_custo').Value := Item.preco_custo;
-//            ParamByName('preco_unitario').Value := Item.preco_unitario;
-//            ParamByName('preco_unitario_medio').Value := Item.preco_unitario_medio;
-//            ParamByName('custo_contabil').Value := Item.custo_contabil;
-//            ParamByName('custo_liquido').Value := Item.custo_liquido;
-//            ParamByName('custo_real').Value := Item.custo_real;
-//            ParamByName('custo_medio').Value := Item.custo_medio;
             ParamByName('ind_mov').Value := Item.ind_mov;
             ParamByName('reservado').Value := Item.reservado;
             ParamByName('presente').Value := Item.presente;
@@ -852,37 +845,37 @@ begin
             lQryKardex.SQL.Add(',:ID_CODTABELA');
             lQryKardex.SQL.Add(',:ST_TABELA');
             lQryKardex.SQL.Add(',:PRECO_VENDIDO');
-            lQryKardex.SQL.Add(',(SELECT TOP 1 PRECO_UNITARIO FROM ESTOQUE WHERE '+
+            lQryKardex.SQL.Add(',COALESCE((SELECT TOP 1 PRECO_UNITARIO FROM ESTOQUE WHERE '+
               'ID_EMPRESA = :ID_EMPRESA AND ID_PRODUTO = :ID_PRODUTO '+
-                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC)');
-            lQryKardex.SQL.Add(',(SELECT TOP 1 PRECO_UNITARIO_MEDIO FROM ESTOQUE WHERE '+
+                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC),0)');
+            lQryKardex.SQL.Add(',COALESCE((SELECT TOP 1 PRECO_UNITARIO_MEDIO FROM ESTOQUE WHERE '+
               'ID_EMPRESA = :ID_EMPRESA AND ID_PRODUTO = :ID_PRODUTO '+
-                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC)');
-            lQryKardex.SQL.Add(',(SELECT TOP 1 PRECO_CUSTO FROM ESTOQUE WHERE '+
+                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC),0)');
+            lQryKardex.SQL.Add(',COALESCE((SELECT TOP 1 PRECO_CUSTO FROM ESTOQUE WHERE '+
               'ID_EMPRESA = :ID_EMPRESA AND ID_PRODUTO = :ID_PRODUTO '+
-                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC)');
+                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC),0)');
             lQryKardex.SQL.Add(',:PRECO_TABELA');
-            lQryKardex.SQL.Add(',(SELECT TOP 1 CUSTO_CONTABIL FROM ESTOQUE WHERE '+
+            lQryKardex.SQL.Add(',COALESCE((SELECT TOP 1 CUSTO_CONTABIL FROM ESTOQUE WHERE '+
               'ID_EMPRESA = :ID_EMPRESA AND ID_PRODUTO = :ID_PRODUTO '+
-                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC)');
-            lQryKardex.SQL.Add(',(SELECT TOP 1 CUSTO_LIQUIDO FROM ESTOQUE WHERE '+
+                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC),0)');
+            lQryKardex.SQL.Add(',COALESCE((SELECT TOP 1 CUSTO_LIQUIDO FROM ESTOQUE WHERE '+
               'ID_EMPRESA = :ID_EMPRESA AND ID_PRODUTO = :ID_PRODUTO '+
-                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC)');
-            lQryKardex.SQL.Add(',(SELECT TOP 1 CUSTO_REAL FROM ESTOQUE WHERE '+
+                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC),0)');
+            lQryKardex.SQL.Add(',COALESCE((SELECT TOP 1 CUSTO_REAL FROM ESTOQUE WHERE '+
               'ID_EMPRESA = :ID_EMPRESA AND ID_PRODUTO = :ID_PRODUTO '+
-                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC)');
-            lQryKardex.SQL.Add(',(SELECT TOP 1 CUSTO_MEDIO FROM ESTOQUE WHERE '+
+                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC),0)');
+            lQryKardex.SQL.Add(',COALESCE((SELECT TOP 1 CUSTO_MEDIO FROM ESTOQUE WHERE '+
               'ID_EMPRESA = :ID_EMPRESA AND ID_PRODUTO = :ID_PRODUTO '+
-                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC)');
-            lQryKardex.SQL.Add(',(SELECT TOP 1 QTD_DISPONIVEL FROM ESTOQUE WHERE '+
+                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC),0)');
+            lQryKardex.SQL.Add(',COALESCE((SELECT TOP 1 QTD_DISPONIVEL FROM ESTOQUE WHERE '+
               'ID_EMPRESA = :ID_EMPRESA AND ID_PRODUTO = :ID_PRODUTO '+
-                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC)');
-            lQryKardex.SQL.Add(',(SELECT TOP 1 QTD_TOTAL FROM ESTOQUE WHERE '+
+                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC),0)');
+            lQryKardex.SQL.Add(',COALESCE((SELECT TOP 1 QTD_TOTAL FROM ESTOQUE WHERE '+
               'ID_EMPRESA = :ID_EMPRESA AND ID_PRODUTO = :ID_PRODUTO '+
-                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC)');
-            lQryKardex.SQL.Add(',(SELECT TOP 1 QTD_RESERVADO FROM ESTOQUE WHERE '+
+                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC),0)');
+            lQryKardex.SQL.Add(',COALESCE((SELECT TOP 1 QTD_RESERVADO FROM ESTOQUE WHERE '+
               'ID_EMPRESA = :ID_EMPRESA AND ID_PRODUTO = :ID_PRODUTO '+
-                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC)');
+                'AND ID_SKU = :ID_SKU ORDER BY DT_INC DESC),0)');
             lQryKardex.SQL.Add(',:TIPO_CADASTRO');
             lQryKardex.SQL.Add(',:CODIGO_CADASTRO');
             lQryKardex.SQL.Add(',:ID_USUARIO');
@@ -1366,17 +1359,6 @@ begin
           ParamByName('DT_ALT').AsDateTime := PESSOA.dt_alt;
           ExecSQL;
         end;
-
-//        // ** PEGANDO O MAIOR CODIGO
-//        Close;
-//        SQL.Clear;
-//        SQL.Add('SELECT ISNULL(MAX(CODIGO), 0) + 1 AS CODIGO');
-//        SQL.Add(' FROM CLIENTE WHERE ID_EMPRESA = :empresa_id');
-//        ParamByName('empresa_id').AsInteger :=
-//          PARAMETROS.ID_EMPRESA_LOJA_VIRTUAL;
-//        Open;
-//        var
-//        codigo := FieldByName('CODIGO').AsInteger;
 
         // ** INSERINDO DADOS NA TABELA CLIENTE
         Close;
