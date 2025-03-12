@@ -8,9 +8,4 @@ object PlenusHubService: TPlenusHubService
   OnStop = ServiceStop
   Height = 276
   Width = 393
-  object Timer1: TTimer
-    Enabled = False
-    Left = 184
-    Top = 120
-  end
 end

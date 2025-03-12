@@ -6,6 +6,7 @@ uses
   System.IniFiles,
   System.SysUtils,
   System.StrUtils,
+  routines,
   model.resource.interfaces;
 
   type
@@ -51,7 +52,6 @@ implementation
 constructor TConfiguration.Create;
 var
   arqCfg  : TIniFile;
-  errorLog: TextFile;
   servidor,
   usuario,
   senha,
@@ -124,25 +124,7 @@ begin
     Except
       on e: Exception do
         begin
-          AssignFile(errorLog, ExtractFilePath(ParamStr(0)) + './errorLog.txt');
-          {$I-}
-            Reset(errorLog);
-          {$I+}
-
-           if (IOResult <> 0) then
-              Rewrite(errorLog)
-           else
-            begin
-               CloseFile(errorLog);
-               Append(errorLog);
-            end;
-
-           WriteLn(errorLog,
-           FormatDateTime('YYYY-mm-dd HH:mm:ss.zzz',now())+
-           ' : '+
-           e.Message
-           );
-          CloseFile(errorLog);
+          TRoutines.GenerateLogs(tpError, e.Message);
         end;
     End;
   Finally

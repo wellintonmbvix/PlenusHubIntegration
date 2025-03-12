@@ -58,7 +58,6 @@ uses
 
 type
   TPlenusHubService = class(TService)
-    Timer1: TTimer;
     procedure ServiceExecute(Sender: TService);
     procedure ServiceContinue(Sender: TService; var Continued: Boolean);
     procedure ServiceAfterInstall(Sender: TService);

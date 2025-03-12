@@ -3,6 +3,8 @@ unit model.resource.impl.connection.firedac;
 interface
 
 uses
+  routines,
+
   FireDAC.UI.Intf,
 
   FireDAC.Stan.Intf,
@@ -55,6 +57,7 @@ uses
 
 function TConnection.Connect: TCustomConnection;
 begin
+  Result := FConn;
   try
     FConn.Params.DriverID := FConfiguration.DriverID;
     FConn.Params.Database := FConfiguration.Database;
@@ -70,10 +73,12 @@ begin
     end;
 
     FConn.Connected := True;
-    Result := FConn;
   except
     On e: Exception do
-      raise Exception.Create(#13'Não foi possível realizar a conexão. ' + e.Message);
+      begin
+        TRoutines.GenerateLogs(tpError,
+          'Falha ao conectar com banco de dados: '+e.Message);
+      end;
   end;
 end;
 
