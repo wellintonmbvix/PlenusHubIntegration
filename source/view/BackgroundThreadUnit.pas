@@ -120,7 +120,7 @@ begin
       Exit;
     for var i := 0 to listFiles.Count - 1 do
       begin
-        sucesso := false;
+        sucesso := true;
         var
         nameFile: String := listFiles.Strings[i];
         while POS('\', nameFile) > 0 do
@@ -253,6 +253,7 @@ begin
                       reg0.FieldByName('documento').AsString := TRoutines.MascaraCpfCnpj(sLista[6]);
                       reg0.FieldByName('nome').AsString := sLista[7];
                       reg0.FieldByName('tipoEntrega').AsString := sLista[8];
+                      if sLista[9].Length > 0 then                      
                       reg0.FieldByName('dtentrega').AsDateTime := StrToDateTime(
                         Copy(sLista[9],7,2)+'/'+Copy(sLista[9],5,2)+'/'+Copy(sLista[9],1,4));
                       reg0.FieldByName('totalPedido').AsString := sLista[11];
@@ -323,9 +324,14 @@ begin
                             reg2.FieldByName('nboleto_vdeposito').AsString := sLista[4];
                             reg2.FieldByName('id_tipo').AsInteger := 14; // CARTEIRA_DIG
                             reg2.Post;
+                          end
+                        else
+                          begin
+                            TRoutines.GenerateLogs(tpError,'Forma de pagamento '+sLista[3]+' não mapeada.');
+                            TRoutines.GenerateLogs(tpWarning,'Arquivo '+nameFile+' não integrado.');
+                            sucesso := false;
                           end;
                       end;
-
                     end;
                   3:
                     begin
@@ -376,6 +382,8 @@ begin
               end;
 {$ENDREGION}
 
+          if sucesso then
+          begin
             var
             ISERIE_NFE := TISERIE_NFE.New;
             serie_nfe := ISERIE_NFE.Build.ListById('ID_SERIE_NFE',
@@ -718,6 +726,8 @@ begin
 
 {$ENDREGION}
 
+          end;
+
         Finally
           if fileOpen then
             begin
@@ -739,7 +749,7 @@ begin
               while POS('\', nameFile) > 0 do
                 nameFile := Copy(nameFile,POS('\', nameFile)+1, Length(nameFile));
 
-              MoveFile(PWideChar(listFiles.Strings[i]),
+              MoveFile(PWideChar('C:\CSSISTEMAS\Plenus\ecommerce\download\Temp\'+nameFile),
                 PWideChar('C:\CSSISTEMAS\Plenus\ecommerce\download\Erro\'+nameFile));
             end;
         End;
